@@ -1,72 +1,53 @@
-#include <iostream>
 #include "MatrizDinamica.h"
 
 int main() {
-    #include <iostream>
-
-using namespace std;
-
-
-int main(){
-int matrizA[2][3];
-float matrizB[3][2];
-float matrizC[3][3];
-
-cout << "-- BIENVENIDO --" << endl;
-cout << " Sistema de Análisis de Transformaciones Lineales " << endl;
-
-//Llenar los valores dentro de la matriz A
-cout << "Ingrese los valores de la matriz A (2x3):" << endl;
-for(int i = 0 ; i < 2 ; i++){
-    for(int j = 0; < 3; j++){
-        cout << "A[" << i << "]" << "[" << j << "]" << endl;
-        int valor;
-        cin >> valor;
-        matrizA[2][3] = valor;
-        
+    cout << "--- Sistema de Análisis de Transformaciones Lineales ---" << endl;
+    
+    // PARTE 1: MATRICES DE ENTEROS CON REDIMENSIÓN
+    cout << "\n>> Prueba de Matriz ENTERA (Matriz A) <<" << endl;
+    cout << "Creando Matriz A (Tipo INT) de 2x3..." << endl;
+    
+    MatrizDinamica<int> A(2, 3);
+    A.llenarDesdeUsuario();
+    
+    cout << "\n>> Redimensionando Matriz A <<" << endl;
+    cout << "Redimensionando A a 3x3. Datos conservados:" << endl;
+    A.redimensionar(3, 3);
+    A.imprimir("A redimensionada");
+    cout << "(Nuevos valores inicializados a 0)" << endl;
+    
+    // PARTE 2: MATRICES DE FLOTANTES Y MULTIPLICACIÓN
+    cout << "\n>> Prueba de Multiplicación (Tipo FLOAT) <<" << endl;
+    cout << "Creando Matriz B (Tipo FLOAT) de 3x2..." << endl;
+    
+    MatrizDinamica<float> B(3, 2);
+    // Establecer valores específicos según el ejemplo
+    B.establecer(0, 0, 1.5f); B.establecer(0, 1, 0.5f);
+    B.establecer(1, 0, 2.0f); B.establecer(1, 1, 1.0f);
+    B.establecer(2, 0, 1.0f); B.establecer(2, 1, 2.5f);
+    
+    cout << "B[0,0]: 1.5, B[0,1]: 0.5" << endl;
+    cout << "B[1,0]: 2.0, B[1,1]: 1.0" << endl;
+    cout << "B[2,0]: 1.0, B[2,1]: 2.5" << endl;
+    
+    // Convertir matriz A de int a float para poder multiplicar
+    MatrizDinamica<float> A_float(3, 3);
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            A_float.establecer(i, j, (float)A.obtener(i, j));
+        }
     }
-}
-
-cout << "---------------------------------" << endl;
-cout << ">> Redimensionando Matriz A <<" << endl;
-cout << "REdimensionando A a 3x3. Datos conservados:" << endl;
-for(int i=0; i< 2 << i++){
-    cout << "|";
-    for(int j=0; j<3; j++){
-        cout << matriz A[i][j] << " ";
-    }
-    cout << "|" << endl;
-}
-
-//Llenar los valores dentro de la matriz B
-cout << "Ingrese los valores de la matriz B (3X2):" << endl;
-for(int i = 0 ; i < 3 ; i++){
-    for(int j = 0; < 2; j++){
-        cout << "B[" << i << "]" << "[" << j << "]" << endl;
-        int valor;
-        cin >> valor;
-        matrizB[3][2] = valor;
-        
-    }
-}
-
-cout << "---------------------------------" << endl;
-cout << ">> Redimensionando Matriz B <<" << endl;
-cout << "REdimensionando B a 3x3. Datos conservados:" << endl;
-for(int i=0; i< 3 << i++){
-    cout << "|";
-    for(int j=0; j<2; j++){
-        cout << matriz B[i][j] << " ";
-    }
-    cout << "|" << endl;
-}
-
-//Mltiplicación de A*B para sacar la matriz C
-//Aqui vamo a poner toda la lógica de la multiplicación, cuando ande mas motivado
-
-
-//Liberar Memoria
-//Aqui va toda la lógica de liberacion de memoria de todas las matrices tambien cuando ande mas motivado
-}
+    
+    cout << "\nMatriz C = A(3x3) x B(3x2) ..." << endl;
+    
+    // Realizar multiplicación
+    MatrizDinamica<float> C = MatrizDinamica<float>::multiplicar(A_float, B);
+    
+    cout << "\nMatriz C (Resultado 3x2, Tipo FLOAT):" << endl;
+    C.imprimir("C");
+    
+    cout << "Liberando memoria de todas las matrices..." << endl;
+    cout << "Sistema completado exitosamente." << endl;
+    
     return 0;
 }
